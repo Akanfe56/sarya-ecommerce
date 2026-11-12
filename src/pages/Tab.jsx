@@ -1,33 +1,38 @@
-import React from 'react'
-import { Link } from 'react-router'
+import { Link } from "react-router";
+
+const collections = [
+  { title: "Fragrances", image: "/img/p6.jpg", href: "/tab1" },
+  { title: "Wristwatches", image: "/img/W3.jpg", href: "/tab2" },
+  { title: "Clothing", image: "/img/c1.jpg", href: "/tab3" },
+  { title: "Footwear", image: "/img/S1.jpg", href: "/tab4" },
+];
 
 function Tab() {
   return (
-    <div className='grid sm:grid md:grid-cols-2 lg:grid-cols-3 border-black h-auto gap-3 lg:mb-40 mb-5'>
-        <div className=' border border-black'>
-           <span > <img src="/img/p6.jpg" className='w-full object-cover h-[40vh] ' alt="" /></span>
-           <div className='p-3'>
-            <p className='uppercase text-center font-bold text-2xl'>Fragnances</p>
-           <Link to="/Tab1"> <button type="button" className='mt-5 rounded-md bg-[#0B0500] hover:bg-[#D8F1A0] hover:text-[#0B0500] text-[#D8F1A0] py-2 md:py-4 px-3 md:px-12 w-full'>Click Here</button></Link>
-           </div>
-        </div>
-        <div className=' border border-black'>
-           <span > <img src="/img/W3.jpg" className='w-full object-cover h-[40vh] ' alt="" /></span>
-           <div className='p-3'>
-            <p className='uppercase text-center font-bold text-2xl'>Wristwatches</p>
-           <Link to="/Tab2"> <button type="button" className='mt-5 rounded-md bg-[#0B0500] hover:bg-[#D8F1A0] hover:text-[#0B0500] text-[#D8F1A0] py-2 md:py-4 px-3 md:px-12 w-full'>Click Here</button></Link>
-           </div>
-        </div>
-        <div className=' border border-black'>
-           <span > <img src="/img/c1.jpg" className='w-full object-cover h-[40vh] ' alt="" /></span>
-           <div className='p-3'>
-            <p className='uppercase text-center font-bold text-2xl'>Clothings</p>
-           <Link to="/Tab3"> <button type="button" className='mt-5 rounded-md bg-[#0B0500] hover:bg-[#D8F1A0] hover:text-[#0B0500] text-[#D8F1A0] py-2 md:py-4 px-3 md:px-12 w-full'>Click Here</button></Link>
-           </div>
-        </div>
-       
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      {collections.map((collection) => (
+        <Link
+          key={collection.title}
+          to={collection.href}
+          className="group relative isolate min-h-48 overflow-hidden rounded-2xl bg-[#0B0500] shadow-sm focus:outline-none focus:ring-2 focus:ring-[#75694f] focus:ring-offset-2"
+        >
+          <img
+            src={collection.image}
+            alt=""
+            className="absolute inset-0 -z-20 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#0B0500]/90 via-[#0B0500]/30 to-transparent" />
+          <div className="flex min-h-48 items-end justify-between gap-3 p-5 text-white">
+            <span className="text-xl font-semibold">{collection.title}</span>
+            <span className="rounded-lg bg-[#D8F1A0] px-3 py-2 text-sm font-semibold text-[#0B0500] transition group-hover:bg-white">
+              Browse
+            </span>
+          </div>
+        </Link>
+      ))}
     </div>
-  )
+  );
 }
 
-export default Tab
+export default Tab;

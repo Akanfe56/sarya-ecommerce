@@ -36,14 +36,14 @@
   },
   {
     "id": "4",
-    "name": "Classic Wristwatch 4",
+    "name": "Classic Sneaker 1",
     "price": 240,
     "img": "/img/s8.jpg",
+    "category": "footwear",
     "featured": true,
     "trending": false,
     "latest": false,
-    "description":
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium alias suscipit ratione ab beatae quas."
+    "description": "A bright, sporty sneaker with a bold everyday look."
   },
   {
     "id": "5",
@@ -102,36 +102,36 @@
   },
   {
     "id": "10",
-    "name": "Vintage Wristwatch 2",
+    "name": "Sport Sneaker 2",
     "price": 230,
     "img": "/img/S1.jpg",
+    "category": "footwear",
     "featured": false,
     "trending": false,
     "latest": true,
-    "description":
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium alias suscipit ratione ab beatae quas."
+    "description": "A lightweight sneaker with a bold, sporty silhouette."
   },
   {
     "id": "11",
-    "name": "Military Wristwatch 3",
+    "name": "Everyday Sneaker 3",
     "price": 250,
     "img": "/img/S2.jpg",
+    "category": "footwear",
     "featured": false,
     "trending": false,
     "latest": true,
-    "description":
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium alias suscipit ratione ab beatae quas."
+    "description": "A comfortable-looking sneaker made for casual outfits."
   },
   {
     "id": "12",
-    "name": "Fashion Wristwatch 4",
+    "name": "Classic Sneaker 4",
     "price": 170,
     "img": "/img/S3.jpg",
+    "category": "footwear",
     "featured": false,
     "trending": false,
     "latest": true,
-    "description":
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium alias suscipit ratione ab beatae quas."
+    "description": "A streamlined sneaker that pairs easily with everyday wear."
   },
   {
     "id": "13",
@@ -176,6 +176,182 @@
     "latest": false,
     "description":
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium alias suscipit ratione ab beatae quas."
+  },
+  {
+    "id": "17",
+    "name": "Copper Bomber Jacket",
+    "price": 120,
+    "img": "/img/C3.jpg",
+    "category": "clothing",
+    "featured": true,
+    "trending": false,
+    "latest": false,
+    "description": "A warm copper bomber jacket with a clean, versatile shape."
+  },
+  {
+    "id": "18",
+    "name": "Everyday Pullover Hoodie",
+    "price": 75,
+    "img": "/img/c4.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": true,
+    "latest": false,
+    "description": "A relaxed brown hoodie for comfortable everyday layering."
+  },
+  {
+    "id": "19",
+    "name": "Checked Flannel Overshirt",
+    "price": 65,
+    "img": "/img/c5.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": false,
+    "latest": false,
+    "description": "A black and grey checked shirt jacket with an easy casual feel."
+  },
+  {
+    "id": "20",
+    "name": "Essential Black T-Shirt",
+    "price": 35,
+    "img": "/img/c6.jpg",
+    "category": "clothing",
+    "featured": true,
+    "trending": false,
+    "latest": false,
+    "description": "A simple black crew-neck tee designed for everyday outfits."
+  },
+  {
+    "id": "21",
+    "name": "Statement Black Look",
+    "price": 130,
+    "img": "/img/c9.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": true,
+    "latest": false,
+    "description": "A dramatic all-black fashion look with a relaxed, tailored silhouette."
+  },
+  {
+    "id": "22",
+    "name": "Classic Cotton Tee Set",
+    "price": 48,
+    "img": "/img/c10.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": false,
+    "latest": false,
+    "description": "A set of soft crew-neck tees in a selection of everyday colors."
+  },
+  {
+    "id": "23",
+    "name": "Soft White Sweatshirt",
+    "price": 72,
+    "img": "/img/c11.jpg",
+    "category": "clothing",
+    "featured": true,
+    "trending": false,
+    "latest": false,
+    "description": "A clean white crew-neck sweatshirt with a relaxed fit."
+  },
+  {
+    "id": "24",
+    "name": "Butterfly Graphic Hoodie",
+    "price": 88,
+    "img": "/img/c13.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": true,
+    "latest": false,
+    "description": "A dark graphic hoodie finished with a bold butterfly print."
+  },
+  {
+    "id": "25",
+    "name": "Streetwear Logo Hoodie",
+    "price": 92,
+    "img": "/img/c14.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": false,
+    "latest": false,
+    "description": "A soft grey hoodie with a relaxed streetwear-inspired look."
+  },
+  {
+    "id": "26",
+    "name": "Patterned Denim Shirt",
+    "price": 68,
+    "img": "/img/c15.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": false,
+    "latest": true,
+    "description": "A blue button-up shirt with a subtle all-over pattern."
+  },
+  {
+    "id": "27",
+    "name": "Classic Crewneck Sweatshirt",
+    "price": 78,
+    "img": "/img/c16.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": false,
+    "latest": true,
+    "description": "A black crewneck sweatshirt with a minimal, understated finish."
+  },
+  {
+    "id": "28",
+    "name": "Layered Tank Top Set",
+    "price": 42,
+    "img": "/img/c17.jpg",
+    "category": "clothing",
+    "featured": false,
+    "trending": false,
+    "latest": true,
+    "description": "A versatile set of layered tank tops in easy-to-match neutrals."
+  },
+  {
+    "id": "29",
+    "name": "Red and White High-Top Sneakers",
+    "price": 280,
+    "img": "/img/s4.jpg",
+    "category": "footwear",
+    "featured": true,
+    "trending": false,
+    "latest": false,
+    "description": "Bold red, black, and white high-top sneakers with a standout street style."
+  },
+  {
+    "id": "30",
+    "name": "Everyday Black Trainer",
+    "price": 200,
+    "img": "/img/s5.jpg",
+    "category": "footwear",
+    "featured": false,
+    "trending": true,
+    "latest": false,
+    "description": "A lightweight black trainer with a clean profile for everyday wear."
+  },
+  {
+    "id": "31",
+    "name": "Pastel Color-Block Sneakers",
+    "price": 260,
+    "img": "/img/s6.jpg",
+    "category": "footwear",
+    "featured": true,
+    "trending": false,
+    "latest": true,
+    "description": "A playful pastel sneaker with soft pink, lilac, and yellow accents."
+  },
+  {
+    "id": "32",
+    "name": "Neutral Leather-Look Sneakers",
+    "price": 230,
+    "img": "/img/s7.jpg",
+    "category": "footwear",
+    "featured": false,
+    "trending": false,
+    "latest": true,
+    "description": "A versatile cream sneaker with warm neutral laces and a classic shape."
   }
   ]
 }

@@ -1,14 +1,13 @@
-import React from 'react'
-import Container from '../components/shared/Container'
+import CategoryProducts from "../components/CategoryProducts";
 
-function Tab3() {
+function Clothing() {
   return (
-    <Container>
-      <div>
-        <h1 className='uppercase font-bold lg:text-6xl text-3xl text-center mt-10'>Clothings</h1>
-      </div>
-    </Container>
-  )
+    <CategoryProducts
+      category="clothing"
+      title="Clothing"
+      description="Find versatile clothing picks that are easy to make your own."
+    />
+  );
 }
 
-export default Tab3
+export default Clothing;

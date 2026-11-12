@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "SaRya Store",
+  "short_name": "SaRya",
+  "description": "Thoughtful finds for everyday style from SaRya.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f1e8",
+  "theme_color": "#0B0500",
+  "icons": [
+    {
+      "src": "/icons/sarya.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

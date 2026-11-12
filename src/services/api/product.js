@@ -1,16 +1,16 @@
-import { baseUrl } from "../index";
+import { productsBaseUrl } from "../index";
 
 export const getProducts = async () => {
+    if (!productsBaseUrl) return null;
+
     try {
-        const response = await fetch(`${baseUrl}/products`);
-        console.log(response)
+        const response = await fetch(`${productsBaseUrl}/products`);
         if (response.ok) {
             return response.json()
-        }else{
-            throw new Error("Failed to fetch products");
         }
-        
+        throw new Error(`Failed to fetch products (${response.status})`);
     } catch (error) {
-        console.log(error)
+        console.error("Could not load products from the configured API:", error);
+        return null;
     }
 }

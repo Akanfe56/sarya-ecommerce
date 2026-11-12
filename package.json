@@ -4,14 +4,16 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm run server\" \"npm run payments\" \"vite --host 0.0.0.0\"",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "server": "json-server --watch db.json --port 3000",
-    "start": "concurrently \"npm run server\" \"npm run dev\""
+    "payments": "node --env-file-if-exists=.env.local payment-server.mjs",
+    "start": "npm run dev"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.119.0",
     "@tailwindcss/vite": "^4.1.11",
     "concurrently": "^9.2.0",
     "json-server": "^1.0.0-beta.3",

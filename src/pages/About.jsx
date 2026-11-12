@@ -1,75 +1,156 @@
-import React from "react";
+import { Link } from "react-router";
 import Container from "../components/shared/Container";
+
+const values = [
+  {
+    title: "Quality without compromise",
+    description: "We take care to offer products chosen for their quality and lasting appeal.",
+  },
+  {
+    title: "Integrity in action",
+    description: "We aim to be open, honest, and thoughtful in every customer interaction.",
+  },
+  {
+    title: "Customer-centered service",
+    description: "Your experience matters to us, from discovering a product to receiving your order.",
+  },
+  {
+    title: "Innovation and creativity",
+    description: "We keep exploring fresh ideas while staying true to what makes Sarya special.",
+  },
+];
 
 function About() {
   return (
-    <div className="">
-      <Container>
-        <div className="font-bold capitalize">
-          <h1 className="text-center pt-7 pb-4">About Us – Sarya</h1>
+    <main
+      className="bg-cover bg-center py-12 md:py-20"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(250, 249, 246, 0.68), rgba(250, 249, 246, 0.76)), url('/img/p3.jpg')",
+      }}
+    >
+      <Container className="px-4 md:px-8">
+        <div className="mx-auto max-w-6xl">
+          <header className="mb-10 rounded-3xl bg-[#0B0500] px-6 py-12 text-center text-white shadow-lg md:px-12 md:py-16">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#D8F1A0]">
+              Quality · Style · Care
+            </p>
+            <h1 className="mb-5 text-4xl font-bold md:text-5xl">About Sarya</h1>
+            <p className="mx-auto max-w-2xl text-base leading-7 text-white/75 md:text-lg">
+              A store built around thoughtful finds, dependable quality, and a
+              shopping experience that feels personal.
+            </p>
+          </header>
 
-          <p>
-            
-            Welcome to Sarya, your trusted destination for quality, style, and
-            exceptional customer experience. We started Sarya with a clear
-            purpose: to create a brand that goes beyond just selling products —
-            we want to inspire trust, build lasting relationships, and become a
-            name people are proud to recommend. Every product, every decision,
-            and every interaction is rooted in our belief that our customers
-            deserve the very best. From humble beginnings, Sarya has grown into
-            a brand recognized for its attention to detail, commitment to
-            quality, and genuine care for our customers. We take pride in
-            sourcing the finest materials, partnering with reliable suppliers,
-            and ensuring that every product reflects our dedication to
-            excellence.
-            <h1 className=" mt-7 mb-4">Our Story :</h1>
-            The idea for Sarya was born out of a desire to combine style,
-            reliability, and affordability without compromise. We noticed a gap
-            in the market where customers often had to choose between quality
-            and price. At Sarya, we decided to challenge that trade-off by
-            delivering products that are both premium in feel and accessible in
-            cost. Our team works tirelessly behind the scenes — from design and
-            production to packaging and delivery — to ensure that your
-            experience with Sarya is smooth, enjoyable, and memorable. We listen
-            to feedback, adapt to trends, and constantly innovate to stay ahead
-            while staying true to our core values.
-            <h1 className=" mt-7 mb-4">Our Mission :</h1>
-            To create products and experiences that inspire trust, deliver
-            exceptional value, and make everyday life a little more special. We
-            aim to build more than just a brand — we’re building a community of
-            happy, loyal customers who share our passion for quality and
-            authenticity.
-            <h1 className=" mt-7 mb-4">Our Vision :</h1>
-            We envision Sarya becoming a household name known for quality,
-            creativity, and care. A brand that people don’t just buy from, but
-            connect with on a deeper level. Our goal is to expand our reach
-            while keeping our personal, customer-first approach intact.
-            <h1 className=" mt-7 mb-4">Our Values :</h1>
-            Quality Without Compromise – Every product meets our strict quality
-            standards before it reaches you. Integrity in Action – We are open,
-            honest, and transparent in every business decision.
-            Customer-Centered Service – Your satisfaction is our top priority,
-            and we go the extra mile to make it happen. Innovation and
-            Creativity – We embrace fresh ideas and solutions to bring you the
-            best.
-            <h1 className=" pt-7 pb-4">Why Choose Sarya?</h1>A brand built on
-            trust and reliability. Products that balance elegance, durability,
-            and value. Friendly and responsive customer service. A commitment to
-            listening, improving, and delivering better every time. Our Promise
-            to You At Sarya, you are not just a customer — you are part of our
-            story. We celebrate every order, every message, and every smile our
-            products bring. We are here to inspire confidence, add beauty to
-            your everyday life, and remind you that quality and care still exist
-            in today’s fast-paced world. From the moment you discover Sarya, we
-            hope you feel the difference — the warmth in our words, the thought
-            in our products, and the genuine desire to make your experience
-            unforgettable. Because to us, you’re not just buying something…
-            you’re joining a family. Thank you for trusting Sarya. Together,
-            we’ll keep creating moments worth remembering.
-          </p>
+          <section className="rounded-3xl border border-white/70 bg-white/90 p-6 shadow-sm backdrop-blur-sm md:p-10">
+            <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#75694f]">
+              Our story
+            </p>
+            <h2 className="mb-5 text-2xl font-bold text-[#0B0500] md:text-3xl">
+              Style and value, together
+            </h2>
+            <div className="max-w-4xl space-y-4 text-base leading-8 text-gray-700">
+              <p>
+                Welcome to Sarya, your destination for quality, style, and a
+                thoughtful customer experience. We started with a clear purpose:
+                to build a brand that goes beyond selling products—to inspire
+                trust, build lasting relationships, and become a name people are
+                proud to recommend.
+              </p>
+              <p>
+                The idea for Sarya came from a desire to bring style, reliability,
+                and affordability together. We believe customers should be able
+                to find products that feel special and offer lasting value. We
+                listen to feedback, adapt to changing tastes, and keep improving
+                while staying true to our values.
+              </p>
+            </div>
+          </section>
+
+          <section className="my-6 grid gap-6 md:grid-cols-2">
+            <article className="rounded-3xl bg-[#D8F1A0] p-7 shadow-sm md:p-9">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#514b38]">
+                Our mission
+              </p>
+              <h2 className="mb-4 text-2xl font-bold text-[#0B0500]">
+                Make everyday life feel a little more special
+              </h2>
+              <p className="leading-7 text-[#27251f]">
+                We create products and experiences that inspire trust, deliver
+                value, and bring people together around a shared appreciation
+                for quality and authenticity.
+              </p>
+            </article>
+            <article className="rounded-3xl border border-white/70 bg-white/90 p-7 shadow-sm backdrop-blur-sm md:p-9">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#75694f]">
+                Our vision
+              </p>
+              <h2 className="mb-4 text-2xl font-bold text-[#0B0500]">
+                A name people feel connected to
+              </h2>
+              <p className="leading-7 text-gray-700">
+                We envision Sarya becoming a household name known for quality,
+                creativity, and care—growing our reach while keeping a personal,
+                customer-first approach.
+              </p>
+            </article>
+          </section>
+
+          <section className="rounded-3xl border border-white/70 bg-white/90 p-6 shadow-sm backdrop-blur-sm md:p-10">
+            <div className="mb-7 max-w-2xl">
+              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#75694f]">
+                What guides us
+              </p>
+              <h2 className="text-2xl font-bold text-[#0B0500] md:text-3xl">
+                The values behind every choice
+              </h2>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {values.map((value, index) => (
+                <article key={value.title} className="rounded-2xl bg-[#f7f6f2] p-5 md:p-6">
+                  <span className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#0B0500] text-sm font-bold text-[#D8F1A0]">
+                    0{index + 1}
+                  </span>
+                  <h3 className="mb-2 text-lg font-semibold text-[#0B0500]">
+                    {value.title}
+                  </h3>
+                  <p className="leading-6 text-gray-600">{value.description}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-6 flex flex-col items-start justify-between gap-6 rounded-3xl bg-[#0B0500] p-7 text-white shadow-lg md:flex-row md:items-center md:p-10">
+            <div className="max-w-2xl">
+              <p className="mb-2 text-sm font-semibold uppercase tracking-[0.18em] text-[#D8F1A0]">
+                Our promise
+              </p>
+              <h2 className="mb-3 text-2xl font-bold md:text-3xl">
+                You’re part of the Sarya story
+              </h2>
+              <p className="leading-7 text-white/75">
+                Thank you for trusting us. We’ll keep working to make your
+                experience thoughtful, memorable, and worthy of recommending.
+              </p>
+            </div>
+            <div className="flex shrink-0 flex-wrap gap-3">
+              <Link
+                to="/products"
+                className="rounded-xl bg-[#D8F1A0] px-6 py-3 font-semibold text-[#0B0500] transition hover:bg-white"
+              >
+                Explore the store
+              </Link>
+              <Link
+                to="/"
+                className="rounded-xl border border-white/40 px-6 py-3 font-semibold text-white transition hover:bg-white/10"
+              >
+                Back to homepage
+              </Link>
+            </div>
+          </section>
         </div>
       </Container>
-    </div>
+    </main>
   );
 }
 

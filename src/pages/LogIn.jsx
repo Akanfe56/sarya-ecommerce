@@ -7,25 +7,28 @@ import { AuthContext } from '../context/AuthContext';
 
 function Login () {
   const [showPassword, setShowPassword] = useState(false);
-  const [state, dispatch] = useContext(AuthContext)
-  const { register, handleSubmit, formState: { errors, isSubmitting, isValid }, reset} = useForm({
+  const [, dispatch] = useContext(AuthContext)
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset} = useForm({
       mode: "onChange"
     });
     const navigate =useNavigate();
   
     const onSubmit = async (loginData) => {
-      const data = await loginUser(loginData);
-      if(data){
-        console.log(data)
-        localStorage.setItem("auth-token", data.token);
-        dispatch({ type: "setToken", payload: data.token})
+      try {
+        const data = await loginUser(loginData);
+        const token = data?.token || data?.accessToken || data?.data?.token;
+        if (!token) {
+          throw new Error("Login succeeded but the server did not return an access token.");
+        }
+        localStorage.setItem("auth-token", token);
+        dispatch({ type: "setToken", payload: token });
         toast.success(data.message || "Login successful!");
         reset();
-        navigate('/');
-      }else{
-        toast.error(data.message || "Login failed. Please try again.");
+        navigate("/");
+      } catch (error) {
+        toast.error(error.message || "Login failed. Please try again.");
       }
-    }
+    };
    
 
 
@@ -42,6 +45,8 @@ function Login () {
             <input
               id="login-email"
               type="email"
+              autoComplete="email"
+              required
               { ...register("email", {
                 required: "Email Address is required",
               })}
@@ -56,6 +61,8 @@ function Login () {
             <input
               id="login-password"
               type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
               {...register("password", {
                 required: "User Password is required"
               })}
@@ -64,6 +71,7 @@ function Login () {
             />
             <button
               type="button"
+              aria-label={showPassword ? "Hide password" : "Show password"}
               className="absolute right-3 bottom-2 text-sm font-medium text-gray-600 hover:text-gray-800 focus:outline-none"
               onClick={() => setShowPassword(!showPassword)}
             >

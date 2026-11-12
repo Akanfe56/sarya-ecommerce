@@ -6,14 +6,17 @@ import { ProductContext } from '../context/ProductContext'
 function Latest() {
   const { latest } = useContext(ProductContext)
   return (
-    <div className="mt-7">
-      <h2 className='uppercase font-bold lg:text-start text-center'>Latest Products</h2>
-      <div className="parent gap-3 mt-5 block sm:grid md:grid-cols-2 lg:grid-cols-4">
+    <section>
+      <div className="mb-5">
+        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#75694f]">Fresh additions</p>
+        <h2 className="text-2xl font-bold text-[#0B0500] md:text-3xl">Latest products</h2>
+      </div>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         { latest.map((items) => (
           <ProductItems key={items.id} items={items} />
         ))}
       </div>
-    </div>
+    </section>
   )
 }
 

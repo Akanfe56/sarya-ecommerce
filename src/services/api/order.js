@@ -1,41 +1,42 @@
-import { baseUrl } from "../index";
+import { paymentApiUrl } from "../index";
 
+const postOrderRequest = async (path, data, fallbackMessage) => {
+  if (!paymentApiUrl) {
+    throw new Error(
+      "Payment is not configured yet. Add VITE_PAYMENT_API_URL with your payment backend URL."
+    );
+  }
 
-export const initiatePayment = async (data) => {
+  let response;
   try {
-    const response = await fetch(`${baseUrl}/initiate-payment`, {
+    response = await fetch(`${paymentApiUrl}${path}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-         "auth-token": localStorage.getItem("auth-token")
       },
       body: JSON.stringify(data),
     });
-    if (response.ok) {
-      return await response.json();
-    }
-  
-  } catch (error) {
-    console.error("Error creating user:", error);
+  } catch {
+    throw new Error("Could not reach the payment service. Check your connection and try again.");
   }
+
+  const result = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new Error(result?.message || result?.error || fallbackMessage);
+  }
+  return result;
 };
 
+export const initiatePayment = (data) =>
+  postOrderRequest(
+    "/initiate-payment",
+    data,
+    "Payment could not be started. Please try again."
+  );
 
-export const verifyPayment = async (data) => {
-  try {
-    const response = await fetch(`${baseUrl}/verify-payment`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-         "auth-token": localStorage.getItem("auth-token")
-      },
-      body: JSON.stringify(data),
-    });
-    if (response.ok) {
-      return await response.json();
-    }
-  
-  } catch (error) {
-    console.error("Error creating user:", error);
-  }
-};
+export const verifyPayment = (data) =>
+  postOrderRequest(
+    "/verify-payment",
+    data,
+    "Payment could not be verified. Please try again."
+  );

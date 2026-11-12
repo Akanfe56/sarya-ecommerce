@@ -1,128 +1,91 @@
-import { createContext, useState, useEffect, useContext } from "react";
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useState, useEffect, useCallback } from "react";
 import { getProducts } from "../services/api/product";
-import {
-  addCartItem,
-  getCartItems,
-  updateCartItem,
-} from "../services/api/cart";
 import { toast } from "react-toastify";
-import { AuthContext } from "./AuthContext";
+import { verifyPayment } from "../services/api/order";
+import productData from "../Data/ProductData";
 
 export const ProductContext = createContext();
 
 export const ProductProvider = ({ children }) => {
-  const [product, setProduct] = useState([]);
-  const latest = product.filter((item) => item.latest === false);
-  const trending = product.filter((item) => item.trending === false);
+  const [product, setProduct] = useState(productData);
+  const latest = product.filter((item) => item.latest === true);
+  const trending = product.filter((item) => item.trending === true);
   const featured = product.filter((item) => item.featured);
   const [cartItems, setCartItems] = useState({ products: [] });
-  const [state, dispatch] = useContext(AuthContext)
+  const [searchQuery, setSearchQuery] = useState("");
   const [order, setOrder ] = useState(null)
-
-  const isAuthenticated = state?.accessToken !== null;
-  console.log("IsAuthenticated: ", isAuthenticated);
-
-  useEffect(() => {
-    fetchCart();
-  }, []);
-  // }, [cartItems]);
 
   useEffect(() => {
     fetchProduct()
   }, []);
 
-  console.log(cartItems); 
-  const HandleSearch = (searchTerm, products) => {
-    console.log(products);
-    const lowerTerm = searchTerm.toLowerCase();
-    const filteredProduct = products.filter((productt) => {
-      const nameMatch = productt.name.toLowerCase().includes(lowerTerm);
-      const descriptionMatch = productt.description
-        .toLowerCase()
-        .includes(lowerTerm);
-
-      return nameMatch || descriptionMatch;
-    });
-    console.log("filteredProduct:", filteredProduct);
-    // setter(filteredProduct);
-    setFetched(filteredProduct);
-    // setFiltered(filteredProduct);
-    // return filteredProduct;
-  };
+  const HandleSearch = (searchTerm) => setSearchQuery(searchTerm);
   const fetchProduct = async () => {
     try {
       const data = await getProducts();
-    //   console.log("Data:", data.data);
-      setProduct(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      const records = Array.isArray(data)
+        ? data
+        : data?.data ?? data?.products ?? [];
+      if (records.length > 0) {
+        const productsById = new Map(productData.map((item) => [String(item.id), item]));
 
-  const fetchCart = async () => {
-    try {
-      if (!isAuthenticated) {
-        const storedCart = JSON.parse(localStorage.getItem("cartItems")) || {
-          products: [],
-        };
-        if (storedCart) {
-          setCartItems(storedCart);
-        } else {
-          toast.error("Failed to retrieve cart items");
-        }
-      } else {
-        const data = await getCartItems();
-        if (data) {
-          setCartItems(data);
-        } else {
-          toast.error("Failed to retrieve cart items");
-        }
+        records.forEach((item) => {
+          const id = String(item.id);
+          const localProduct = productsById.get(id);
+          productsById.set(id, {
+            ...localProduct,
+            ...item,
+            id: item.id ?? localProduct?.id,
+            name: localProduct?.name || item.name,
+            price: localProduct?.price ?? item.price,
+            description: localProduct?.description || item.description,
+            category: item.category || localProduct?.category,
+            img: localProduct?.img || item.img || item.image,
+            featured: localProduct?.featured ?? item.featured ?? false,
+            trending: localProduct?.trending ?? item.trending ?? false,
+            latest: localProduct?.latest ?? item.latest ?? false,
+          });
+        });
+
+        setProduct(Array.from(productsById.values()));
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const fetchCart = useCallback(() => {
+    try {
+      const storedCart = JSON.parse(localStorage.getItem("cartItems")) || { products: [] };
+      setCartItems({ products: Array.isArray(storedCart.products) ? storedCart.products : [] });
+    } catch {
+      localStorage.removeItem("cartItems");
+      setCartItems({ products: [] });
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
 
   const addToCart = async (productId, quantity, product) => {
     try {
-      if (!isAuthenticated) {
-        // const storedCart = JSON.parse(localStorage.getItem("cartItems" || { products: [] }));
-        const storedCart = JSON.parse(localStorage.getItem("cartItems")) || {
-          products: [],
-        };
-        const existingItem = storedCart?.products?.findIndex(
-          (items) => items.product.id === productId
-        );
-        if (existingItem !== -1) {
-          // console.log(storedCart.products[existingItem].quantity)
-          storedCart.products[existingItem].quantity += quantity;
-          storedCart.products[existingItem].amount =
-            storedCart.products[existingItem].quantity *
-            storedCart.products[existingItem].product.price;
-        } else {
-          storedCart?.products?.push({
-            product,
-            quantity,
-            amount: product.price * quantity,
-          });
-        }
-        if (storedCart) {
-          localStorage.setItem("cartItems", JSON.stringify(storedCart));
-          setCartItems(storedCart);
-          toast.success("Item added to cart");
-          fetchCart();
-        } else {
-          toast.error("Failed to add item to cart");
-        }
+      const storedCart = JSON.parse(localStorage.getItem("cartItems")) || { products: [] };
+      storedCart.products ??= [];
+      const existingItem = storedCart.products.findIndex(
+        (item) => String(item.product.id) === String(productId)
+      );
+      if (existingItem !== -1) {
+        storedCart.products[existingItem].quantity += quantity;
+        storedCart.products[existingItem].amount =
+          storedCart.products[existingItem].quantity * storedCart.products[existingItem].product.price;
       } else {
-        const data = await addCartItem(productId, quantity);
-        if (data) {
-          setCartItems(data);
-          toast.success("Item added to cart");
-        } else {
-          toast.error("Failed to add item to cart");
-        }
+        storedCart.products.push({ product, quantity, amount: product.price * quantity });
       }
+      localStorage.setItem("cartItems", JSON.stringify(storedCart));
+      setCartItems(storedCart);
+      toast.success("Item added to cart");
     } catch (error) {
       console.log(error);
     }
@@ -130,39 +93,19 @@ export const ProductProvider = ({ children }) => {
 
   const updateCart = async (productId, quantity, product) => {
     try {
-      if (!isAuthenticated) {
-        const storedCart = JSON.parse(localStorage.getItem("cartItems")) || {
-          products: [],
-        };
-        const existingItem = storedCart.products.findIndex(
-          (items) => items.product.id === productId
-        );
-        if (existingItem !== -1) {
-          storedCart.products[existingItem].quantity = quantity;
-          // storedCart.products[existingItem].productId = productId
-          storedCart.products[existingItem].amount =
-            storedCart.products[existingItem].quantity *
-            storedCart.products[existingItem].product.price;
-        } else {
-          storedCart.products.push({
-            product,
-            quantity,
-            amount: product.price * quantity,
-          });
-        }
-        localStorage.setItem("cartItems", JSON.stringify(storedCart));
-        setCartItems(storedCart);
-        toast.success("Item updated in cart");
-        fetchCart();
+      const storedCart = JSON.parse(localStorage.getItem("cartItems")) || { products: [] };
+      const existingItem = storedCart.products.findIndex(
+        (item) => String(item.product.id) === String(productId)
+      );
+      if (existingItem !== -1) {
+        storedCart.products[existingItem].quantity = quantity;
+        storedCart.products[existingItem].amount = quantity * storedCart.products[existingItem].product.price;
       } else {
-        const data = await updateCartItem(productId, quantity);
-        if (data) {
-          setCartItems(data);
-          toast.success("Item updated in cart");
-        } else {
-          toast.error("Failed to update item in cart");
-        }
+        storedCart.products.push({ product, quantity, amount: product.price * quantity });
       }
+      localStorage.setItem("cartItems", JSON.stringify(storedCart));
+      setCartItems(storedCart);
+      toast.success("Item updated in cart");
     } catch (error) {
       console.log(error);
     }
@@ -175,31 +118,15 @@ export const ProductProvider = ({ children }) => {
           "Are you sure you want to delete this product from your cart?"
         )
       ) {
-        if (!isAuthenticated) {
-          const storedCart = JSON.parse(localStorage.getItem("cartItems")) || {
-            products: [],
-          };
-          const existingItem = storedCart.products.filter(
-            (items) => items.product.id !== productId
-          );
-          if (existingItem) {
-            const updatedCart = { products: existingItem };
-            localStorage.setItem("cartItems", JSON.stringify(updatedCart));
-          }
-          // localStorage.setItem("cartItems", JSON.stringify(storedCart))
-
-          setCartItems(storedCart);
-          toast.success("Item deleted in cart");
-          fetchCart();
-        } else {
-          const data = await updateCartItem(productId);
-          if (data) {
-            setCartItems(data);
-            toast.success("Item deleted in cart");
-          } else {
-            toast.error("Failed to delete item in cart");
-          }
-        }
+        const storedCart = JSON.parse(localStorage.getItem("cartItems")) || { products: [] };
+        const updatedCart = {
+          products: storedCart.products.filter(
+            (item) => String(item.product.id) !== String(productId)
+          ),
+        };
+        localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+        setCartItems(updatedCart);
+        toast.success("Item deleted in cart");
       }
     } catch (error) {
       console.log(error);
@@ -222,12 +149,17 @@ export const ProductProvider = ({ children }) => {
       if (response) {
         setOrder(response)
         toast.success("Order created successfully");
-        setCartItems([]);
+        setCartItems({ products: [] });
+        localStorage.removeItem("cartItems");
+        return response;
       } else {
         toast.error("Order creation failed, please try again");
+        return null;
       }
     } catch (error) {
       console.log(error);
+      toast.error("Order verification failed, please try again.");
+      return null;
     }
   };
 
@@ -235,6 +167,7 @@ export const ProductProvider = ({ children }) => {
     <ProductContext.Provider
       value={{
         product,
+        searchQuery,
         latest,
         trending,
         featured,
@@ -246,7 +179,6 @@ export const ProductProvider = ({ children }) => {
         calcSubtotal,
         calcVat,
         calcTotal,
-        dispatch,
         createOrder,
         order
       }}

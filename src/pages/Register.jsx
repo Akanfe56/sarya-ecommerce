@@ -3,29 +3,40 @@ import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { createUser } from "../services/api/users";
 import { toast } from "react-toastify";
+import { AuthContext } from "../context/AuthContext";
 
 function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting, isValid },
     reset,
   } = useForm({
     mode: "onChange",
   });
   const navigate = useNavigate();
+  const [, dispatch] = useContext(AuthContext);
+  const password = watch("password");
 
   const onSubmit = async (registerData) => {
-    const data = await createUser(registerData);
-    if (data) {
-      console.log(data);
-      toast.success(data.message || "Registration successful!");
+    setSubmitError("");
+    try {
+      const userData = { ...registerData };
+      delete userData.confirmPassword;
+      const data = await createUser(userData);
+      if (data.accessToken) {
+        localStorage.setItem("auth-token", data.accessToken);
+        dispatch({ type: "setToken", payload: data.accessToken });
+      }
+      toast.success(data?.message || "Registration successful! Please log in.");
       reset();
-      navigate("/login");
-    } else {
-      toast.error(data.message || "Registration failed. Please try again.");
+      navigate(data.accessToken ? "/" : "/login");
+    } catch (error) {
+      setSubmitError(error.message || "Registration failed. Please try again.");
     }
   };
  
@@ -44,6 +55,11 @@ function Register() {
         </p>
 
         <form className="space-y-4 " onSubmit={handleSubmit(onSubmit)}>
+          {submitError && (
+            <div role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800">
+              {submitError}
+            </div>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-2">
             <div>
               <label
@@ -63,7 +79,8 @@ function Register() {
                 {...register("firstName", {
                   required: "First Name is required",
                   minLength: {
-                    value: 5,
+                    value: 2,
+                    message: "First name must be at least 2 characters.",
                   },
                 })}
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -88,7 +105,8 @@ function Register() {
                 {...register("lastName", {
                   required: "Last Name is required",
                   minLength: {
-                    value: 5,
+                    value: 2,
+                    message: "Last name must be at least 2 characters.",
                   },
                 })}
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -110,6 +128,8 @@ function Register() {
               <input
                 id="register-email"
                 type="email"
+                autoComplete="email"
+                required
                 {...register("email", {
                   required: "Email Address is required",
                 })}
@@ -131,10 +151,13 @@ function Register() {
               )}
               <input
                 id="register-phone"
+                type="tel"
+                autoComplete="tel"
                 {...register("phone", {
                   required: "Phone Number is required",
                   minLength: {
                     value: 5,
+                    message: "Enter a valid phone number.",
                   },
                 })}
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -159,7 +182,8 @@ function Register() {
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
-                    value: 5,
+                    value: 6,
+                    message: "Password must be at least 6 characters.",
                   },
                 })}
                 type={showPassword ? "text" : "password"}
@@ -169,6 +193,7 @@ function Register() {
 
               <button
                 type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
                 className="absolute right-3 bottom-2 text-sm font-medium text-blue-600 hover:text-blue-800 focus:outline-none"
                 onClick={() => setShowPassword(!showPassword)}
               >
@@ -192,9 +217,8 @@ function Register() {
                 id="register-confirm-password"
                 {...register("confirmPassword", {
                   required: "Confirm Password is required",
-                  minLength: {
-                    value: 5,
-                  },
+                  validate: (value) => value === password || "Passwords do not match.",
+                  deps: ["password"],
                 })}
                 type={showConfirmPassword ? "text" : "password"}
                 className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -202,6 +226,7 @@ function Register() {
               />
               <button
                 type="button"
+                aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                 className="absolute right-3 bottom-2 text-sm font-medium text-blue-600 hover:text-blue-800 focus:outline-none"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
@@ -212,7 +237,7 @@ function Register() {
 
           <div>
             <label
-              htmlFor="register-phone"
+              htmlFor="register-home-address"
               className="block text-sm font-medium text-gray-700"
             >
               Home Address
@@ -229,6 +254,7 @@ function Register() {
                 required: "Home Address is required",
                 minLength: {
                   value: 5,
+                  message: "Address must be at least 5 characters.",
                 },
               })}
               className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -237,7 +263,7 @@ function Register() {
 
             <input
               type="hidden"
-              value={"USER"}
+              value="USER"
               name="role"
               {...register("role")}
             />
@@ -245,7 +271,7 @@ function Register() {
 
           <button
             type="submit"
-            // disabled={!isValid}
+            disabled={isSubmitting || !isValid}
             className={`w-full py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
               isSubmitting ? "bg-gray-300" : "bg-[#0B0500] hover:bg-[#D8F1A0] hover:text-black"
             } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0B0500]`}
