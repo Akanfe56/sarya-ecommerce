@@ -5,7 +5,7 @@ function Wristwatches() {
     <CategoryProducts
       category="watches"
       title="Wristwatches"
-      description="Browse wristwatches with classic, sporty, and modern styles for different occasions."
+      description="Browse classic, sporty, and modern wristwatches selected for everyone and every occasion."
     />
   );
 }

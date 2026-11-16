@@ -11,6 +11,7 @@ function ProductItems({ items }) {
   );
   const fallbackImage = localProduct?.img || "/img/p3.jpg";
   const productImage = localProduct?.img || items?.img || items?.image || fallbackImage;
+  const priceOnRequest = items?.priceOnRequest || items?.price == null;
   const imageSrc = /^(https?:|data:|blob:)/i.test(productImage) || productImage.startsWith("/")
     ? productImage
     : `/${productImage}`;
@@ -33,7 +34,7 @@ function ProductItems({ items }) {
         }}
       />
       <span className="absolute left-3 top-3 rounded-full bg-[#D8F1A0] px-3.5 py-2 text-sm font-bold text-[#0B0500] shadow-md">
-        ${Number(items?.price || 0).toLocaleString("en-US")}
+        {priceOnRequest ? "Price on request" : `$${Number(items?.price || 0).toLocaleString("en-US")}`}
       </span>
       <div className="space-y-3 p-4 sm:p-5">
         <h3 className="line-clamp-1 text-base font-semibold text-[#0B0500] sm:text-lg">
@@ -49,14 +50,26 @@ function ProductItems({ items }) {
           >
             View product
           </Link>
-          <button
-            type="button"
-            aria-label={`Add ${items?.name} to cart`}
-            onClick={() => addToCart(items?.id, 1, items)}
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#d8d1c5] text-[#0B0500] transition hover:bg-[#D8F1A0] focus:outline-none focus:ring-2 focus:ring-[#75694f] focus:ring-offset-2"
-          >
-            <FaShoppingCart aria-hidden="true" />
-          </button>
+          {priceOnRequest ? (
+            <a
+              href={items?.officialUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`Request pricing for ${items?.name} from the official brand`}
+              className="flex h-10 items-center justify-center rounded-lg border border-[#d8d1c5] px-3 text-xs font-semibold text-[#0B0500] transition hover:bg-[#D8F1A0] focus:outline-none focus:ring-2 focus:ring-[#75694f] focus:ring-offset-2"
+            >
+              Ask price
+            </a>
+          ) : (
+            <button
+              type="button"
+              aria-label={`Add ${items?.name} to cart`}
+              onClick={() => addToCart(items?.id, 1, items)}
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#d8d1c5] text-[#0B0500] transition hover:bg-[#D8F1A0] focus:outline-none focus:ring-2 focus:ring-[#75694f] focus:ring-offset-2"
+            >
+              <FaShoppingCart aria-hidden="true" />
+            </button>
+          )}
         </div>
       </div>
     </article>

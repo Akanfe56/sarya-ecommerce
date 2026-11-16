@@ -5,7 +5,7 @@ function Fragrances() {
     <CategoryProducts
       category="fragrances"
       title="Fragrances"
-      description="Explore fragrances selected to add a distinctive finishing touch to your everyday style."
+      description="Explore fragrances selected for everyone, with a distinctive finishing touch for every day."
     />
   );
 }

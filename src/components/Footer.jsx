@@ -40,10 +40,10 @@ function Footer() {
           <nav aria-label="Footer product categories">
             <h2 className="mb-5 text-xs font-bold uppercase tracking-[0.2em] text-[#D8F1A0]">Shop by category</h2>
             <ul className="space-y-3.5">
-              <li><Link className={footerLinkClass} to="/tab1">Watches</Link></li>
-              <li><Link className={footerLinkClass} to="/tab2">Fragrances</Link></li>
-              <li><Link className={footerLinkClass} to="/tab3">Footwear</Link></li>
-              <li><Link className={footerLinkClass} to="/tab4">Clothing</Link></li>
+              <li><Link className={footerLinkClass} to="/tab1">Fragrances</Link></li>
+              <li><Link className={footerLinkClass} to="/tab2">Watches</Link></li>
+              <li><Link className={footerLinkClass} to="/tab3">Clothing</Link></li>
+              <li><Link className={footerLinkClass} to="/tab4">Footwear</Link></li>
             </ul>
           </nav>
 

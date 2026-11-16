@@ -1,7 +1,5 @@
 import Container from "../components/shared/Container";
-import Trending from "../components/Trending";
-import Featured from "../components/Featured";
-import Latest from "../components/Latest";
+import TopCategoryPicks from "../components/TopCategoryPicks";
 import { Link } from "react-router";
 
 function Home() {
@@ -22,10 +20,10 @@ function Home() {
 
         <nav aria-label="Shop by category" className="mb-14 grid grid-cols-2 gap-3 md:mb-16 md:grid-cols-4 md:gap-4">
           {[
-            ["01", "Watches", "/tab1"],
-            ["02", "Fragrance", "/tab2"],
-            ["03", "Footwear", "/tab3"],
-            ["04", "Clothing", "/tab4"],
+            ["01", "Fragrance", "/tab1"],
+            ["02", "Watches", "/tab2"],
+            ["03", "Clothing", "/tab3"],
+            ["04", "Footwear", "/tab4"],
           ].map(([number, label, href]) => (
             <Link key={label} to={href} className="home-category-link flex items-center justify-between rounded-xl border border-[#e9e5dc] bg-white px-4 py-4 transition hover:-translate-y-0.5 hover:shadow-md sm:px-5">
               <span className="flex items-center gap-3"><span className="text-[10px] tracking-widest text-[#75694f]">{number}</span><span className="font-medium text-[#0B0500]">{label}</span></span>
@@ -34,11 +32,7 @@ function Home() {
           ))}
         </nav>
 
-        <div className="space-y-14 md:space-y-16">
-          <Trending />
-          <Featured />
-          <Latest />
-        </div>
+        <TopCategoryPicks />
       </Container>
     </main>
   );

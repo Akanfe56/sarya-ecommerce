@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import Header from "./components/Header";
 import Banner from "./components/Banner";
 import Home from "./pages/Home";
@@ -25,6 +25,10 @@ import Tab4 from "./pages/Tab4";
 
 function AnimatedRoutes() {
   const location = useLocation();
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <div key={location.pathname} className="page-transition">

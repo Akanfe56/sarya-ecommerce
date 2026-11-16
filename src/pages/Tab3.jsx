@@ -5,7 +5,7 @@ function Clothing() {
     <CategoryProducts
       category="clothing"
       title="Clothing"
-      description="Find versatile clothing picks that are easy to make your own."
+      description="Find versatile clothing picks for everyone, ready to make your own."
     />
   );
 }

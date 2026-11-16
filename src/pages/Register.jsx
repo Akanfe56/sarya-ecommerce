@@ -41,12 +41,13 @@ function Register() {
   };
  
   return (
-    <div className="sm:flex items-center justify-around h-auto w-full bg-cover bg-[url('/img/r.jpg')] block sm:pt-0 pt-[20rem] ">
-      <div className="">
-        <h1 className=" font-bold text-gray-800 text-5xl text-center transform -rotate-12 mr-40">Welcome to Sarya's Stores</h1>
+    <div className="flex min-h-[calc(100vh-6rem)] w-full flex-col items-center justify-center gap-8 bg-[url('/img/r.jpg')] bg-cover bg-center px-4 py-10 sm:px-6 lg:flex-row lg:gap-12 lg:py-14">
+      <div className="w-full max-w-xl">
+        <h1 className="text-center text-3xl font-bold leading-tight text-gray-800 sm:text-4xl md:text-left lg:text-5xl">Welcome to Sarya&apos;s Stores</h1>
       </div>
 
-      <div className="w-full max-w-3xl mt-5 mb-5 mr-3 p-8 space-y-6 bg-white/0 rounded-3xl shadow-md">
+      <div className="w-full max-w-3xl rounded-3xl bg-white/75 p-5 shadow-md backdrop-blur-sm sm:p-8">
+        <div className="space-y-6">
         <h2 className="text-2xl font-bold text-center text-gray-800">
           Create Account
         </h2>
@@ -60,7 +61,7 @@ function Register() {
               {submitError}
             </div>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center gap-2">
+          <div className="grid grid-cols-1 items-center justify-center gap-3 sm:gap-4 lg:grid-cols-2">
             <div>
               <label
                 htmlFor="register-first"
@@ -290,6 +291,7 @@ function Register() {
           </Link>
         </div>
       </div>
+    </div>
     </div>
   );
 }
